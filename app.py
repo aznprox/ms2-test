@@ -13,7 +13,7 @@ g_dungeonLobby = False
 
 def checkEnterButton():
     global g_dungeonLobby
-    yesButtonLocation = pyautogui.locateOnScreen('./static/images/yesbutton2.png')
+    yesButtonLocation = pyautogui.locateOnScreen('./static/images/yesbutton3.png')
     print ("Checking if button exists: {name}".format(name=yesButtonLocation))
     if yesButtonLocation != None:
         randomNumber2 = random.randint(0,2)
@@ -85,7 +85,7 @@ def autoDungeon():
     global g_dungeonLobby   
     while not g_dungeon and not g_dungeonLobby:
         checkEnterButton()
-        if (g_dungeonLobby):
+    while (g_dungeonLobby):
             checkDungeonPortal()
 
 
