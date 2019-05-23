@@ -16,7 +16,6 @@ def checkEnterButton():
     yesButtonLocation = pyautogui.locateOnScreen('./static/images/yesbutton2.png')
     print ("Checking if button exists: {name}".format(name=yesButtonLocation))
     if yesButtonLocation != None:
-        time.sleep(randomnumber1)
         randomNumber2 = random.randint(0,2)
         time.sleep(randomNumber2)   
         PressKey(dk['RETURN'])
@@ -66,7 +65,7 @@ def checkForSuccess():
     global g_dungeon
     while (g_dungeon):
         successCheck = pyautogui.locateOnScreen('./static/images/success1.png')
-        print ("Checking if success image is avaiable: {name} ".format(name=successCheck)
+        print ("Checking if success image is avaiable: {name} ".format(name=successCheck))
         if successCheck != None:
             g_dungeon = not g_dungeon
             PressKey(dk["F12"])
