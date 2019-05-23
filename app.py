@@ -14,28 +14,25 @@ g_dungeonLobby = False
 def checkEnterButton():
     global g_dungeonLobby
     yesButtonLocation = pyautogui.locateOnScreen('./static/images/yesbutton2.png')
-    randomnumber1 = random.randint(1,3)
-    time.sleep(randomnumber1)
-    print ("Checking if button exists {name}".format(name=yesButtonLocation))
+    print ("Checking if button exists: {name}".format(name=yesButtonLocation))
     if yesButtonLocation != None:
         time.sleep(randomnumber1)
-        randomNumber2 = random.randint(1,2)
+        randomNumber2 = random.randint(0,2)
         time.sleep(randomNumber2)   
         PressKey(dk['RETURN'])
         time.sleep(.25)
         ReleaseKey(dk['RETURN'])
         g_dungeonLobby = not g_dungeonLobby        
     else:
-        print ("COULD NOT FIND YES BUTTON")
-        return 
-        
+        print ("COULD NOT FIND YES BUTTON") 
+        return
 #Check if portal is opened
 
 def checkDungeonPortal():
     global g_dungeonLobby
     dungeonName = pyautogui.locateOnScreen('./static/images/dungeon2.png')
     randomnumber1 = random.randint(1,3)   
-    print ("Checking if inside dungeon lobby{name}".format(name=dungeonName))
+    print ("Checking if inside the dungeon lobby: {name}".format(name=dungeonName))
     if dungeonName != None:
         PressKey(dk['RIGHT'])
         time.sleep(1.5)
@@ -57,7 +54,7 @@ def checkIfInDungeon():
         ReleaseKey(dk['GRAVE'])
         time.sleep(2)
         dungeonCheck = pyautogui.locateOnScreen('./static/images/inthedungeon8.png')
-        print ("Checking if inside dungeon {name}".format(name=dungeonCheck))
+        print ("Checking if inside dungeon: {name}".format(name=dungeonCheck))
         if dungeonCheck != None:
             g_dungeonLobby = not g_dungeonLobby
             g_dungeon = not g_dungeon
@@ -69,7 +66,7 @@ def checkForSuccess():
     global g_dungeon
     while (g_dungeon):
         successCheck = pyautogui.locateOnScreen('./static/images/success1.png')
-        print (successCheck)
+        print ("Checking if success image is avaiable: {name} ".format(name=successCheck)
         if successCheck != None:
             g_dungeon = not g_dungeon
             PressKey(dk["F12"])
@@ -87,10 +84,10 @@ def checkForSuccess():
 def autoDungeon():
     global g_dungeon
     global g_dungeonLobby   
-    while not g_dungeon and not g_dungeonLobby :
+    while not g_dungeon and not g_dungeonLobby:
         checkEnterButton()
-    if (g_dungeonLobby):
-        checkDungeonPortal()
+        if (g_dungeonLobby):
+            checkDungeonPortal()
 
 
 def fullApplication():
