@@ -5,6 +5,7 @@ import time
 import random
 from directkeys import PressKey, ReleaseKey, dk
 
+g_application = True
 g_dungeon = False
 g_dungeonLobby = False
 
@@ -12,29 +13,29 @@ g_dungeonLobby = False
 
 def checkEnterButton():
     global g_dungeonLobby
-    screenCapture = pyautogui.screenshot()
     yesButtonLocation = pyautogui.locateOnScreen('./static/images/yesbutton2.png')
     randomnumber1 = random.randint(1,3)
     time.sleep(randomnumber1)
-    print (yesButtonLocation)
+    print ("Checking if button exists {name}".format(name=yesButtonLocation))
     if yesButtonLocation != None:
         time.sleep(randomnumber1)
-        randomNumber2 = random.randint(0,10)
-        g_dungeonLobby = not g_dungeonLobby
-        if randomNumber2 > 4:
-            pyautogui.click('./static/images/yesbutton2.png')
-        else:
-            PressKey(dk['RETURN'])
+        randomNumber2 = random.randint(1,2)
+        time.sleep(randomNumber2)   
+        PressKey(dk['RETURN'])
+        time.sleep(.25)
+        ReleaseKey(dk['RETURN'])
+        g_dungeonLobby = not g_dungeonLobby        
     else:
-        print ("COULD NOT FIND DUNGEON ENTER BUTTON")
+        print ("COULD NOT FIND YES BUTTON")
         return 
         
 #Check if portal is opened
 
 def checkDungeonPortal():
-    dungeonName = pyautogui.locateOnScreen('./static/images/dungeon.png')
-    randomnumber1 = random.randint(1,3)
-    print (dungeonName)
+    global g_dungeonLobby
+    dungeonName = pyautogui.locateOnScreen('./static/images/dungeon2.png')
+    randomnumber1 = random.randint(1,3)   
+    print ("Checking if inside dungeon lobby{name}".format(name=dungeonName))
     if dungeonName != None:
         PressKey(dk['RIGHT'])
         time.sleep(1.5)
@@ -42,30 +43,68 @@ def checkDungeonPortal():
         time.sleep(randomnumber1)
         PressKey(dk['GRAVE'])
         time.sleep(0.75)
-        ReleaseKey(dk['GRAVE'])            
-    else:
-        return
+        ReleaseKey(dk['GRAVE'])
+        while (g_dungeonLobby):
+            checkIfInDungeon()
+            
 
-def checkActionKey():
-    actionKeyCheck = pyautogui.locateAllOnScreen('./static/images/actionkey.png')
-    if actionKeyCheck != None:
+def checkIfInDungeon():
+    global g_dungeonLobby
+    global g_dungeon
+    while (g_dungeonLobby):
         PressKey(dk['GRAVE'])
         time.sleep(0.75)
         ReleaseKey(dk['GRAVE'])
-    else:
-        return   
+        time.sleep(2)
+        dungeonCheck = pyautogui.locateOnScreen('./static/images/inthedungeon8.png')
+        print ("Checking if inside dungeon {name}".format(name=dungeonCheck))
+        if dungeonCheck != None:
+            g_dungeonLobby = not g_dungeonLobby
+            g_dungeon = not g_dungeon
+            while (g_dungeon):
+                checkForSuccess()
 
 
-time.sleep(5)
-#checkEnterButton()
-checkDungeonPortal()
-#Press Enter Key if Dungeon Dialog exists
+def checkForSuccess():
+    global g_dungeon
+    while (g_dungeon):
+        successCheck = pyautogui.locateOnScreen('./static/images/success1.png')
+        print (successCheck)
+        if successCheck != None:
+            g_dungeon = not g_dungeon
+            PressKey(dk["F12"])
+            time.sleep(0.5)
+            ReleaseKey(dk["F12"])
+            time.sleep(1)
+            PressKey(dk['RETURN'])
+            time.sleep(.25)
+            ReleaseKey(dk['RETURN'])
+            
+            
 
 
 
-# print ("pressing right key")
-# time.sleep(5)
+def autoDungeon():
+    global g_dungeon
+    global g_dungeonLobby   
+    while not g_dungeon and not g_dungeonLobby :
+        checkEnterButton()
+    if (g_dungeonLobby):
+        checkDungeonPortal()
 
-# PressKey(dk['1'])
-# time.sleep(5)
-# ReleaseKey(dk['1'])
+
+def fullApplication():
+    global g_application
+    while g_application:
+        autoDungeon()    
+            
+
+if __name__ == '__main__':
+    time.sleep(1)
+    fullApplication()
+    #checkIfInDungeon()
+    #checkEnterButton()
+    #checkDungeonPortal()
+    #checkForSuccess()
+    #Press Enter Key if Dungeon Dialog exists
+    
