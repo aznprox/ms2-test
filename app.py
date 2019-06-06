@@ -29,7 +29,7 @@ def checkEnterButton():
 
 def checkDungeonPortal():
     global g_dungeonLobby
-    dungeonName = pyautogui.locateOnScreen('./static/images/dungeon2.png')
+    dungeonName = pyautogui.locateOnScreen('./static/images/dungeon2.png', confidence=0.9)
     randomnumber1 = random.randint(1,3)   
     print ("Checking if inside the dungeon lobby: {name}".format(name=dungeonName))
     if dungeonName != None:
@@ -51,8 +51,8 @@ def checkIfInDungeon():
         PressKey(dk['GRAVE'])
         time.sleep(0.75)
         ReleaseKey(dk['GRAVE'])
-        time.sleep(2)
-        dungeonCheck = pyautogui.locateOnScreen('./static/images/inthedungeon8.png')
+        time.sleep(0.25)
+        dungeonCheck = pyautogui.locateOnScreen('./static/images/inthedungeon8.png', confidence=0.9)
         print ("Checking if inside dungeon: {name}".format(name=dungeonCheck))
         if dungeonCheck != None:
             g_dungeonLobby = not g_dungeonLobby
@@ -64,7 +64,7 @@ def checkIfInDungeon():
 def checkForSuccess():
     global g_dungeon
     while (g_dungeon):
-        successCheck = pyautogui.locateOnScreen('./static/images/success1.png')
+        successCheck = pyautogui.locateOnScreen('./static/images/success2.png', confidence=0.9)
         print ("Checking if success image is avaiable: {name} ".format(name=successCheck))
         if successCheck != None:
             g_dungeon = not g_dungeon
